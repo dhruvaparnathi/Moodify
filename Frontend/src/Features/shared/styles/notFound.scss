@@ -1,0 +1,252 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.notfound-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #020617, #0f172a, #1e1b4b);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  padding: 2rem;
+
+  .gradient-one,
+  .gradient-two {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(160px);
+    opacity: 0.4;
+  }
+
+  .gradient-one {
+    width: 400px;
+    height: 400px;
+    background: #8b5cf6;
+    top: -100px;
+    left: -100px;
+  }
+
+  .gradient-two {
+    width: 350px;
+    height: 350px;
+    background: #3b82f6;
+    bottom: -100px;
+    right: -100px;
+  }
+
+  .floating-icons {
+    .icon {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.08);
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .icon1 {
+      top: 15%;
+      left: 10%;
+      width: 70px;
+      height: 70px;
+    }
+
+    .icon2 {
+      bottom: 18%;
+      right: 10%;
+      width: 90px;
+      height: 90px;
+      animation-delay: 1s;
+    }
+
+    .icon3 {
+      top: 20%;
+      right: 18%;
+      width: 50px;
+      height: 50px;
+      animation-delay: 2s;
+    }
+  }
+
+  .notfound-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 750px;
+    padding: 4rem 3rem;
+    border-radius: 32px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+
+    .music-wave {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      margin-bottom: 2.5rem;
+      height: 100px;
+
+      span {
+        width: 12px;
+        border-radius: 20px;
+        background: linear-gradient(180deg, #8b5cf6, #3b82f6);
+        animation: wave 1.2s infinite ease-in-out;
+
+        &:nth-child(1) {
+          height: 35px;
+          animation-delay: 0.1s;
+        }
+
+        &:nth-child(2) {
+          height: 65px;
+          animation-delay: 0.2s;
+        }
+
+        &:nth-child(3) {
+          height: 90px;
+          animation-delay: 0.3s;
+        }
+
+        &:nth-child(4) {
+          height: 55px;
+          animation-delay: 0.4s;
+        }
+
+        &:nth-child(5) {
+          height: 100px;
+          animation-delay: 0.5s;
+        }
+
+        &:nth-child(6) {
+          height: 60px;
+          animation-delay: 0.6s;
+        }
+
+        &:nth-child(7) {
+          height: 40px;
+          animation-delay: 0.7s;
+        }
+      }
+    }
+
+    h1 {
+      font-size: 9rem;
+      font-weight: 800;
+      color: white;
+      line-height: 1;
+      background: linear-gradient(135deg, #ffffff, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      max-width: 550px;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.8;
+      font-size: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 1rem 2rem;
+      border-radius: 18px;
+      text-decoration: none;
+      background: linear-gradient(135deg, #8b5cf6, #6366f1);
+      color: white;
+      font-weight: 600;
+      transition: 0.3s ease;
+      box-shadow: 0 10px 25px rgba(139, 92, 246, 0.35);
+
+      &:hover {
+        transform: translateY(-4px) scale(1.02);
+      }
+    }
+  }
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  50% {
+    transform: scaleY(1.7);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@media (max-width: 768px) {
+  .notfound-page {
+    .notfound-container {
+      padding: 3rem 2rem;
+
+      h1 {
+        font-size: 6rem;
+      }
+
+      h2 {
+        font-size: 2rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .notfound-page {
+    padding: 1rem;
+
+    .notfound-container {
+      padding: 2.5rem 1.5rem;
+
+      h1 {
+        font-size: 4.5rem;
+      }
+
+      h2 {
+        font-size: 1.6rem;
+      }
+
+      p {
+        font-size: 0.95rem;
+      }
+
+      .music-wave {
+        gap: 7px;
+
+        span {
+          width: 9px;
+        }
+      }
+    }
+  }
+}

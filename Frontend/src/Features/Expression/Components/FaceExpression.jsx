@@ -135,18 +135,20 @@ const FaceExpression = () => {
         autoPlay
         playsInline
         style={{
-          width: "500px",
+          width: "100%",
+          maxWidth: "500px",
+          height: "auto",
           borderRadius: "20px",
         }}
       />
 
-      <canvas ref={canvasRef} />
+      <canvas ref={canvasRef} style={{ display: "none" }} />
 
       <h1>{expression}</h1>
 
-      <button onClick={detect}>
+      {/* <button onClick={detect}>
         Start Detecting
-      </button>
+      </button> */}
     </div>
   );
 };
