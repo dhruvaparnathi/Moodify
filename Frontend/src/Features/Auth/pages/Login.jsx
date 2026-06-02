@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/login.scss";
 import { Link, useNavigate } from "react-router";
 import { Music2, Eye, EyeOff } from "lucide-react";
-import { useAuth } from "../hooks/useAuth"
+import { useAuth } from "../hooks/useAuth";
 import Loader from "../../shared/components/Loader";
+import { gsap } from "gsap";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,16 +16,74 @@ const Login = () => {
     password: "",
   });
 
-  if(loading){
+  // Entrance animations using GSAP
+  useEffect(() => {
+    if (loading) return;
+
+    const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+    // Initial setups to prevent flashes
+    gsap.set(".left-section .brand, .left-section h2, .left-section p, .music-bars span, .right-section, .login-form h2, .login-form p, .input-group, .forgot-password, .login-btn, .register-link", {
+      opacity: 0
+    });
+
+    tl.fromTo(".left-section .brand", 
+      { y: -30, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 1.2 }
+    )
+    .fromTo(".left-section h2", 
+      { y: 30, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 0.9 }, 
+      "-=0.7"
+    )
+    .fromTo(".left-section p", 
+      { y: 20, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 0.9 }, 
+      "-=0.7"
+    )
+    .fromTo(".music-bars span", 
+      { scaleY: 0.1, opacity: 0 }, 
+      { scaleY: 1, opacity: 1, duration: 0.9, stagger: 0.1, ease: "back.out(1.6)" }, 
+      "-=0.6"
+    )
+    .fromTo(".right-section", 
+      { x: 60, opacity: 0 }, 
+      { x: 0, opacity: 1, duration: 1.2 }, 
+      "-=0.9"
+    )
+    .fromTo(".login-form h2, .login-form p, .input-group, .forgot-password, .login-btn, .register-link", 
+      { y: 25, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 0.7, stagger: 0.08 }, 
+      "-=0.7"
+    );
+
+    // Continuous premium looping equalizer bars
+    const barsTween = gsap.to(".music-bars span", {
+      scaleY: "random(0.3, 1.8)",
+      duration: "random(0.4, 0.7)",
+      repeat: -1,
+      yoyo: true,
+      stagger: 0.08,
+      ease: "sine.inOut"
+    });
+
+    return () => {
+      barsTween.kill();
+    };
+  }, [loading]);
+
+  if (loading) {
     return <Loader text="Logging you in..." />;
   }
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
-  const handleSubmit = async(e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     await handleLogin(formData);
     navigate('/');
@@ -105,16 +164,6 @@ const Login = () => {
             <button type="submit" className="login-btn">
               Login
             </button>
-
-            {/* <div className="divider">
-              <span></span>
-              <p>or</p>
-              <span></span>
-            </div>
-
-            <button type="button" className="google-btn">
-              Continue with Google
-            </button> */}
 
             <p className="register-link">
               Don’t have an account? <Link to="/register">Register</Link>

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import '../styles/register.scss'
 import { useAuth } from "../hooks/useAuth";
 import Loader from "../../shared/components/Loader";
 import { useNavigate, Link } from "react-router";
 import { Music2, Eye, EyeOff } from "lucide-react";
+import { gsap } from "gsap";
 
 const Register = () => {
   const { loading, handleRegister } = useAuth();
@@ -16,15 +17,73 @@ const Register = () => {
     password: "",
   });
 
-  if(loading){
+  // Entrance animations using GSAP
+  useEffect(() => {
+    if (loading) return;
+
+    const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+    // Initial setups to prevent flashes
+    gsap.set(".left-section .brand, .left-section h2, .left-section p, .music-bars span, .right-section, .register-form h2, .register-form p, .input-group, .register-btn, .login-link", {
+      opacity: 0
+    });
+
+    tl.fromTo(".left-section .brand", 
+      { y: -30, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 1.2 }
+    )
+    .fromTo(".left-section h2", 
+      { y: 30, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 0.9 }, 
+      "-=0.7"
+    )
+    .fromTo(".left-section p", 
+      { y: 20, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 0.9 }, 
+      "-=0.7"
+    )
+    .fromTo(".music-bars span", 
+      { scaleY: 0.1, opacity: 0 }, 
+      { scaleY: 1, opacity: 1, duration: 0.9, stagger: 0.1, ease: "back.out(1.6)" }, 
+      "-=0.6"
+    )
+    .fromTo(".right-section", 
+      { x: 60, opacity: 0 }, 
+      { x: 0, opacity: 1, duration: 1.2 }, 
+      "-=0.9"
+    )
+    .fromTo(".register-form h2, .register-form p, .input-group, .register-btn, .login-link", 
+      { y: 25, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 0.7, stagger: 0.08 }, 
+      "-=0.7"
+    );
+
+    // Continuous premium looping equalizer bars
+    const barsTween = gsap.to(".music-bars span", {
+      scaleY: "random(0.3, 1.8)",
+      duration: "random(0.4, 0.7)",
+      repeat: -1,
+      yoyo: true,
+      stagger: 0.08,
+      ease: "sine.inOut"
+    });
+
+    return () => {
+      barsTween.kill();
+    };
+  }, [loading]);
+
+  if (loading) {
     return <Loader text="Creating your Account..." />;
   }
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await handleRegister(formData);
@@ -115,16 +174,6 @@ const Register = () => {
             <button type="submit" className="register-btn">
               Create Account
             </button>
-
-            {/* <div className="divider">
-              <span></span>
-              <p>or</p>
-              <span></span>
-            </div> */}
-
-            {/* <button type="button" className="google-btn">
-              Continue with Google
-            </button> */}
 
             <p className="login-link">
               Already have an account? <Link to="/login">Login</Link>
