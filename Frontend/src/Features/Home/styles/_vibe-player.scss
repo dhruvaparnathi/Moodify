@@ -1,0 +1,364 @@
+@use "sass:color";
+
+/* Section 4: Premium Music Player */
+#section-player {
+  .player-card-layout {
+    max-width: 1000px;
+    width: 100%;
+    background-color: $white;
+    border: $border-thickness solid $dark-charcoal;
+    border-radius: 32px;
+    box-shadow: $neo-shadow;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    overflow: hidden;
+    z-index: 5;
+    transition: background-color 0.4s ease;
+  }
+
+  .player-tracklist-column {
+    padding: 2.5rem;
+    border-right: $border-thickness solid $dark-charcoal;
+    display: flex;
+    flex-direction: column;
+    height: 520px;
+    overflow: hidden;
+
+    .column-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+
+      h3 {
+        font-family: 'Syne', sans-serif;
+        font-size: 1.2rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .tracks-count-badge {
+        background-color: $wero-yellow;
+        border: 1.5px solid $dark-charcoal;
+        border-radius: 12px;
+        padding: 0.2rem 0.6rem;
+        font-size: 0.72rem;
+        font-weight: 700;
+      }
+    }
+
+    .tracklist-scroll {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      padding-right: 0.4rem;
+
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: rgba($dark-charcoal, 0.15);
+        border-radius: 10px;
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        background: rgba($dark-charcoal, 0.25);
+        border-radius: 10px;
+      }
+
+      .playlist-item {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 0.8rem 1rem;
+        border-radius: 16px;
+        background-color: rgba($dark-charcoal, 0.02);
+        border: $border-thickness solid transparent;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        .item-number {
+          font-size: 0.8rem;
+          font-weight: 700;
+          color: rgba($dark-charcoal, 0.3);
+          width: 20px;
+        }
+
+        .item-art {
+          width: 36px;
+          height: 36px;
+          border-radius: 8px;
+          border: 1.5px solid $dark-charcoal;
+          object-fit: cover;
+        }
+
+        .item-meta {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+
+          .item-name {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: $dark-charcoal;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          .item-artist {
+            font-size: 0.75rem;
+            color: rgba($dark-charcoal, 0.5);
+          }
+        }
+
+        .playing-indicator {
+          width: 6px;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background-color: $wero-rose;
+          border: 1px solid $dark-charcoal;
+        }
+
+        &:hover {
+          background-color: rgba($dark-charcoal, 0.05);
+          transform: translateX(4px);
+        }
+
+        &.selected {
+          background-color: $light-yellow;
+          border-color: $dark-charcoal;
+        }
+      }
+    }
+  }
+
+  .player-control-column {
+    min-width: 500px;
+    padding: 2.5rem;
+    background-color: rgba($wero-yellow, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    /* Turntable Target slot where the floating Vinyl Record sits! */
+    .turntable-slot-target {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      border: 3px dashed rgba($dark-charcoal, 0.25);
+      background-color: rgba($dark-charcoal, 0.02);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+
+      .center-spindle-hole {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: $dark-charcoal;
+      }
+
+      .turntable-label-placeholder {
+        position: absolute;
+        bottom: -24px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: rgba($dark-charcoal, 0.4);
+        letter-spacing: 0.5px;
+      }
+    }
+
+    .active-meta {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      width: 100%;
+
+      h4 {
+        font-family: 'Syne', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: $dark-charcoal;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 0 1rem;
+      }
+
+      p {
+        font-size: 0.75rem;
+        color: rgba($dark-charcoal, 0.5);
+        margin-top: 0.15rem;
+      }
+    }
+
+    /* Seek Slider */
+    .time-scrubber {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+
+      span {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: rgba($dark-charcoal, 0.5);
+        width: 32px;
+      }
+
+      .scrubber-slider {
+        flex: 1;
+        height: 6px;
+        -webkit-appearance: none;
+        appearance: none;
+        background-color: rgba($dark-charcoal, 0.1);
+        border: 1px solid $dark-charcoal;
+        border-radius: 10px;
+        outline: none;
+        cursor: pointer;
+
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background-color: $white;
+          border: 1.5px solid $dark-charcoal;
+          cursor: pointer;
+          transition: transform 0.1s ease;
+        }
+
+        &::-webkit-slider-thumb:hover {
+          transform: scale(1.2);
+        }
+      }
+    }
+
+    /* Controls Row */
+    .controls-row {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin-bottom: 1.5rem;
+
+      .btn-skip {
+        background: transparent;
+        border: none;
+        color: $dark-charcoal;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease;
+
+        &:hover:not(:disabled) {
+          transform: scale(1.1);
+        }
+
+        &:disabled {
+          opacity: 0.35;
+          cursor: not-allowed;
+        }
+      }
+
+      .btn-play-pause {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background-color: $wero-yellow;
+        border: $border-thickness solid $dark-charcoal;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 2px 2px 0px $dark-charcoal;
+        transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+        &:hover:not(:disabled) {
+          transform: translateY(-2px);
+          box-shadow: 4px 4px 0px $dark-charcoal;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+          box-shadow: none;
+          transform: none;
+        }
+      }
+    }
+
+    /* Volume container */
+    .volume-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      max-width: 140px;
+
+      .btn-volume {
+        background: transparent;
+        border: none;
+        color: $dark-charcoal;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+      }
+
+      .volume-slider {
+        flex: 1;
+        height: 4px;
+        -webkit-appearance: none;
+        appearance: none;
+        background-color: rgba($dark-charcoal, 0.1);
+        border: 1px solid $dark-charcoal;
+        border-radius: 10px;
+        outline: none;
+        cursor: pointer;
+
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background-color: $white;
+          border: 1.5px solid $dark-charcoal;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  #section-player {
+    .player-card-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .player-tracklist-column {
+      height: 350px;
+      border-right: none;
+      border-bottom: $border-thickness solid $dark-charcoal;
+    }
+
+    .player-control-column {
+      min-width: 100%;
+    }
+  }
+}

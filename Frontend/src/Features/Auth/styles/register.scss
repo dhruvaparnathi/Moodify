@@ -50,11 +50,9 @@
     flex-direction: column;
     justify-content: center;
     gap: 1.8rem;
-    background: linear-gradient(
-      135deg,
-      rgba(124, 58, 237, 0.45),
-      rgba(59, 130, 246, 0.2)
-    );
+    background: linear-gradient(135deg,
+        rgba(124, 58, 237, 0.45),
+        rgba(59, 130, 246, 0.2));
 
     .brand {
       display: flex;
@@ -256,6 +254,7 @@
 }
 
 @keyframes bounce {
+
   0%,
   100% {
     transform: scaleY(1);

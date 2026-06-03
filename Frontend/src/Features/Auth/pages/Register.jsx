@@ -28,35 +28,35 @@ const Register = () => {
       opacity: 0
     });
 
-    tl.fromTo(".left-section .brand", 
-      { y: -30, opacity: 0 }, 
+    tl.fromTo(".left-section .brand",
+      { y: -30, opacity: 0 },
       { y: 0, opacity: 1, duration: 1.2 }
     )
-    .fromTo(".left-section h2", 
-      { y: 30, opacity: 0 }, 
-      { y: 0, opacity: 1, duration: 0.9 }, 
-      "-=0.7"
-    )
-    .fromTo(".left-section p", 
-      { y: 20, opacity: 0 }, 
-      { y: 0, opacity: 1, duration: 0.9 }, 
-      "-=0.7"
-    )
-    .fromTo(".music-bars span", 
-      { scaleY: 0.1, opacity: 0 }, 
-      { scaleY: 1, opacity: 1, duration: 0.9, stagger: 0.1, ease: "back.out(1.6)" }, 
-      "-=0.6"
-    )
-    .fromTo(".right-section", 
-      { x: 60, opacity: 0 }, 
-      { x: 0, opacity: 1, duration: 1.2 }, 
-      "-=0.9"
-    )
-    .fromTo(".register-form h2, .register-form p, .input-group, .register-btn, .login-link", 
-      { y: 25, opacity: 0 }, 
-      { y: 0, opacity: 1, duration: 0.7, stagger: 0.08 }, 
-      "-=0.7"
-    );
+      .fromTo(".left-section h2",
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9 },
+        "-=0.7"
+      )
+      .fromTo(".left-section p",
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9 },
+        "-=0.7"
+      )
+      .fromTo(".music-bars span",
+        { scaleY: 0.1, opacity: 0 },
+        { scaleY: 1, opacity: 1, duration: 0.9, stagger: 0.1, ease: "back.out(1.6)" },
+        "-=0.6"
+      )
+      .fromTo(".right-section",
+        { x: 60, opacity: 0 },
+        { x: 0, opacity: 1, duration: 1.2 },
+        "-=0.9"
+      )
+      .fromTo(".register-form h2, .register-form p, .input-group, .register-btn, .login-link",
+        { y: 25, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.7, stagger: 0.08 },
+        "-=0.7"
+      );
 
     // Continuous premium looping equalizer bars
     const barsTween = gsap.to(".music-bars span", {

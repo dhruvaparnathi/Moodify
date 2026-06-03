@@ -1,0 +1,118 @@
+/* HIGH FIDELITY FLOATING VINYL RECORD (The scrolling object) */
+.floating-vinyl-record {
+  position: fixed;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  /* Let scroll event pass through it */
+}
+
+.vinyl-disc-rotate-wrapper {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #111111;
+  border: 4px solid $dark-charcoal;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: border-color 0.4s ease;
+
+  /* Glossy Vinyl Grooves */
+  .vinyl-grooves {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .vinyl-groove-line {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+
+      &.line-1 {
+        width: 85%;
+        height: 85%;
+      }
+
+      &.line-2 {
+        width: 70%;
+        height: 70%;
+      }
+
+      &.line-3 {
+        width: 55%;
+        height: 55%;
+      }
+    }
+
+    /* Gloss reflect overlay */
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle, transparent 35%, rgba(255, 255, 255, 0.02) 40%, transparent 65%),
+        linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.06) 50%, transparent 60%);
+    }
+  }
+
+  /* Center vinyl sticker */
+  .vinyl-sticker {
+    width: 135px;
+    height: 135px;
+    border-radius: 50%;
+    background-color: $wero-rose;
+    border: 3px solid $dark-charcoal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9;
+    background-size: cover;
+    background-position: center;
+    transition: background-color 0.5s ease, background-image 0.5s ease;
+
+    .vinyl-sticker-inner {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      border: 1.5px dashed rgba($dark-charcoal, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .vinyl-spindle {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background-color: $dark-charcoal;
+        border: 2px solid rgba(255, 255, 255, 0.25);
+      }
+    }
+  }
+
+  &.playing {
+    animation: rotateVinylInfinite 15s linear infinite;
+  }
+}
+
+@media (max-width: 1000px) {
+  .floating-vinyl-record {
+    /* Hide on small viewports so it does not block reading text */
+    display: none !important;
+  }
+}

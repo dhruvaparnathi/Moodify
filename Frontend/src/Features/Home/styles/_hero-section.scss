@@ -1,0 +1,73 @@
+/* Section 1: Hero Section */
+#section-hero {
+  .hero-text-container {
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .subheading-badge {
+    background-color: $white;
+    border: $border-thickness solid $dark-charcoal;
+    border-radius: 30px;
+    padding: 0.5rem 1.4rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    box-shadow: 2px 2px 0px #181818;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .giant-headline {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.8rem, 6vw, 6.2rem);
+    line-height: 0.95;
+    color: $dark-charcoal;
+    letter-spacing: -2px;
+    text-transform: uppercase;
+    max-width: 1100px;
+    margin-bottom: 2rem;
+
+    .row {
+      display: block;
+      position: relative;
+    }
+
+    .row-middle {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 120px;
+      /* Space reserved in the middle for our flying Vinyl! */
+      margin: 0.5rem 0;
+    }
+  }
+
+  .scroll-hint-badge {
+    background-color: $white;
+    border: $border-thickness solid $dark-charcoal;
+    border-radius: 30px;
+    padding: 0.4rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1rem;
+    animation: bounceUpDown 2s infinite ease-in-out;
+  }
+}
+
+@media (max-width: 1000px) {
+  #section-hero {
+    .row-middle {
+      gap: 0;
+    }
+  }
+}

@@ -1,0 +1,62 @@
+/* Section 5: Loop Partner Ticker */
+#section-partners {
+  background-color: $dark-charcoal;
+  color: $white;
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-top: $border-thickness solid $dark-charcoal;
+
+  .ticker-heading {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 3rem;
+    text-transform: uppercase;
+    color: rgba($white, 0.7);
+    letter-spacing: 1px;
+  }
+
+  .ticker-wrap {
+    width: 100%;
+    overflow: hidden;
+    padding: 1rem 0;
+    background-color: rgba($white, 0.03);
+    border-top: 1.5px solid rgba($white, 0.08);
+    border-bottom: 1.5px solid rgba($white, 0.08);
+    position: relative;
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: infiniteLoopScroll 30s linear infinite;
+
+      .partner-logo-item {
+        font-family: 'Syne', sans-serif;
+        font-size: clamp(1.8rem, 4vw, 3.2rem);
+        font-weight: 800;
+        text-transform: uppercase;
+        color: rgba($white, 0.25);
+        padding: 0 4rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        white-space: nowrap;
+        transition: color 0.3s ease;
+
+        &::after {
+          content: "⚡";
+          font-size: 1.5rem;
+          margin-left: 3rem;
+          color: rgba($wero-yellow, 0.25);
+        }
+
+        &:hover {
+          color: $wero-yellow;
+        }
+      }
+    }
+  }
+}

@@ -13,6 +13,10 @@ const songSchema = new mongoose.Schema({
         type: String,
         required: [true, "Song title required"]
     },
+    artist:{
+        type: String,
+        default: "Unknown Artist"
+    },
     mood:{
         type: [String],
         enum: ['happy','sad','surprised','angry','calm','romantic']

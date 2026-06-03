@@ -1,0 +1,74 @@
+@use "sass:color";
+
+/* Moodify Premium Webflow-style SCSS Design System */
+$dark-charcoal: #181818;
+$white: #ffffff;
+$light-yellow: #fce9b8;
+$border-thickness: 2px;
+$neo-shadow: 4px 4px 0px #181818;
+
+/* Colors from sowieso.wero-wallet.eu */
+$wero-rose: #f08ba4;
+$wero-yellow: #f8e38f;
+$wero-teal: #9be3cc;
+$wero-mint: #a3e8cc;
+$wero-peach: #fbbf94;
+
+/* Emotion Theme Colors */
+$color-happy: #fbe08d;
+$color-sad: #a3c9f8;
+$color-surprised: #fca8cd;
+$color-angry: #f8a2a2;
+$color-romantic: #fda4af;
+$color-calm: #9be3cc;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Outfit', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: $wero-yellow;
+  color: $dark-charcoal;
+  overflow-x: hidden;
+}
+
+/* Keyframes */
+@keyframes infiniteLoopScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes rotateVinylInfinite {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounceUpDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes bounceUpDownMascot {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.05);
+  }
+}
