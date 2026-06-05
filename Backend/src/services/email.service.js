@@ -2,7 +2,9 @@ const authConfig = require('../config/authConfig');
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
   auth: {
     type: "OAuth2",
     user: authConfig.GOOGLE_USER,
@@ -10,8 +12,6 @@ const transporter = nodemailer.createTransport({
     clientSecret: authConfig.GOOGLE_CLIENT_SECRET,
     refreshToken: authConfig.GOOGLE_REFRESH_TOKEN,
   },
-  logger: true,
-  debug: true,
 });
 
 transporter.verify((error, success) => {
