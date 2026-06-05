@@ -24,10 +24,7 @@ app.use('/api/song', songRouter);
 
 const frontendPath = path.join(__dirname, '../public/dist');
 app.use(express.static(frontendPath));
-app.get('/', (req, res) => {
-  res.sendFile(path.join(frontendPath, 'index.html'));
-});
-app.use('*', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
