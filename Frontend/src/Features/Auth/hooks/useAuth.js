@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../auth.context";
-import { register, login, getMe, logout } from "../services/auth.api";
+import { register, login, getMe, logout, verifyEmail, resendOtp } from "../services/auth.api";
 
 export const useAuth = ()=>{
     const context = useContext(AuthContext);
@@ -10,8 +10,20 @@ export const useAuth = ()=>{
     const handleRegister = async ({ username, email, password }) => {
         try {
             setLoading(true);
-            const data = await register({ username, email, password });
+            await register({ username, email, password });
+        } catch (err) {
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const handleVerifyEmail = async ({ otp, email }) => {
+        try {
+            setLoading(true);
+            const data = await verifyEmail({ otp, email });
             setUser(data.user);
+            return data;
         } catch (err) {
             setUser(null);
             throw err;
@@ -20,13 +32,29 @@ export const useAuth = ()=>{
         }
     }
 
-    const handleLogin = async ({ username, email, password }) => {
+    const handleResendOtp = async ({ email }) => {
         try {
             setLoading(true);
-            const data = await login({ username, email, password });
+            const data = await resendOtp({ email });
+            return data;
+        } catch (err) {
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const handleLogin = async ({ email, password }) => {
+        try {
+            setLoading(true);
+            const data = await login({ email, password });
             setUser(data.user);
+            return { success: true, user: data.user };
         } catch (err) {
             setUser(null);
+            if (err.response && err.response.status === 401 && err.response.data.message === "Please verify your email") {
+                return { success: false, unverified: true };
+            }
             throw err;
         } finally {
             setLoading(false);
@@ -57,5 +85,14 @@ export const useAuth = ()=>{
         }
     }
 
-    return { user, loading, handleRegister, handleLogin, handleGetMe, logout: handleLogout }
+    return { 
+        user, 
+        loading, 
+        handleRegister, 
+        handleVerifyEmail, 
+        handleResendOtp,
+        handleLogin, 
+        handleGetMe, 
+        logout: handleLogout 
+    }
 }

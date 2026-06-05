@@ -77,6 +77,16 @@ const HomeContent = () => {
     // Reset scroll values on hot reload/mount
     window.scrollTo(0, 0);
 
+    // Initialize vinyl transforms for GPU-accelerated movement
+    gsap.set(vinylRef.current, {
+      left: 0,
+      top: 0,
+      xPercent: -50,
+      yPercent: -50,
+      x: "50vw",
+      y: "52vh"
+    });
+
     // Initial load animation for top floating nav and hero elements
     gsap.fromTo(".floating-nav-top",
       { y: -80, opacity: 0 },
@@ -95,8 +105,8 @@ const HomeContent = () => {
     const target = document.querySelector(".turntable-slot-target");
     const section = document.getElementById("section-player");
 
-    let targetLeft = "77.5%";
-    let targetTop = "44.5%";
+    let targetLeft = "77.5vw";
+    let targetTop = "44.5vh";
 
     if (target && section) {
       const targetRect = target.getBoundingClientRect();
@@ -127,29 +137,29 @@ const HomeContent = () => {
 
     // Animate Vinyl across viewport stages
     tl.to(vinylRef.current, {
-      left: "12%",
-      top: "50%",
+      x: "12vw",
+      y: "50vh",
       scale: 0.75,
       rotation: 240,
       ease: "power1.inOut"
     })
       .to(vinylRef.current, {
-        left: "85%",
-        top: "50%",
+        x: "85vw",
+        y: "50vh",
         scale: 0.65,
         rotation: 520,
         ease: "power1.inOut"
       })
       .to(vinylRef.current, {
-        left: targetLeft,
-        top: targetTop,
+        x: targetLeft,
+        y: targetTop,
         scale: 0.88,
         rotation: 840,
         ease: "power1.inOut"
       })
       .to(vinylRef.current, {
-        left: "67%",
-        top: "160%",
+        x: "67vw",
+        y: "160vh",
         scale: 0,
         rotation: 1080,
         ease: "power2.in"

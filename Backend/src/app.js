@@ -1,5 +1,6 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const path = require('path');
 const cors = require('cors');
 const connectDB = require('./config/database');
 connectDB();
@@ -21,7 +22,11 @@ const handleError = require('./middlewares/error.middleware');
 app.use('/api/auth', authRouter);
 app.use('/api/song', songRouter);
 
-
+const frontendPath = path.join(__dirname, '../frontend/dist');
+app.use(express.static(frontendPath));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(frontendPath, 'index.html'));
+});
 app.use(handleError);
 
 

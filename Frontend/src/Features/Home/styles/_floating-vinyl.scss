@@ -11,6 +11,7 @@
   justify-content: center;
   pointer-events: none;
   /* Let scroll event pass through it */
+  will-change: transform;
 }
 
 .vinyl-disc-rotate-wrapper {

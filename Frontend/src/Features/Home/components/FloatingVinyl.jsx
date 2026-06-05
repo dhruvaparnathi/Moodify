@@ -8,7 +8,7 @@ const FloatingVinyl = () => {
     <div
       ref={vinylRef}
       className="floating-vinyl-record"
-      style={{ left: "50%", top: "52%", transform: "translate(-50%, -50%)" }}
+      style={{ left: 0, top: 0, transform: "translate3d(50vw, 52vh, 0) translate(-50%, -50%)" }}
     >
       <div className={`vinyl-disc-rotate-wrapper ${isPlaying ? "playing" : ""}`}>
         <div className="vinyl-grooves">

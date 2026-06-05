@@ -18,6 +18,27 @@ export async function register({username, email, password}) {
     }
 }
 
+export async function verifyEmail({otp, email}) {
+    try {
+        const response = await api.post('/auth/verify-email', {
+            otp,
+            email
+        });
+        return response.data;
+    } catch (err) {
+        throw err;
+    }
+}
+
+export async function resendOtp({ email }) {
+    try {
+        const response = await api.post('/auth/resend-otp', { email });
+        return response.data;
+    } catch (err) {
+        throw err;
+    }
+}
+
 export async function login({username, email, password}) {
     try {
         const response = await api.post('/auth/login', {
