@@ -16,6 +16,13 @@ const userSchema = new mongoose.Schema({
         required: [true, "Password is required"],
         select: false,
     },
+    verified: {
+        type: Boolean,
+        default: false,
+    },
+    
+},{
+    timestamps:true,
 });
 
 const userModel = mongoose.model("User", userSchema);

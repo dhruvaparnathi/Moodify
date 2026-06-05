@@ -2,6 +2,10 @@ const userModel = require('../models/user.model');
 const redis = require('../config/cache');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { generateOtp, getOtpHtml } = require('../utils/otp.util')
+const { sendEmail } = require('../services/email.service')
+const otpModel = require('../models/otp.model')
+
 
 const registerUserController = async (req, res) => {
     const { username, email, password } = req.body;
@@ -12,8 +16,38 @@ const registerUserController = async (req, res) => {
             { email: email }
         ]
     });
-    if(existingUser) {
-        return res.status(400).json({ message: "Username or email already exists" });
+
+    if (existingUser) {
+        if (!existingUser.verified) {
+            // Unverified user - update details and send new OTP
+            const hash = await bcrypt.hash(password, 10);
+            existingUser.username = username;
+            existingUser.password = hash;
+            existingUser.email = email;
+            await existingUser.save();
+
+            await otpModel.deleteMany({ email });
+            const otp = generateOtp();
+            const hashedOtp = await bcrypt.hash(otp, 10);
+            await otpModel.create({
+                email,
+                otpHash: hashedOtp,
+                user: existingUser._id,
+            });
+
+            const subject = "Verify your email";
+            const html = getOtpHtml(otp);
+            const text = `Your OTP is ${otp}. It will expire in 10 minutes.`;
+
+            await sendEmail(email, subject, text, html);
+
+            return res.status(200).json({
+                message: "Unverified account found. A new verification code has been sent to your email.",
+                user: existingUser
+            });
+        } else {
+            return res.status(400).json({ message: "Username or email already exists" });
+        }
     }
 
     const hash = await bcrypt.hash(password, 10);
@@ -22,6 +56,55 @@ const registerUserController = async (req, res) => {
         username,
         email,
         password: hash,
+    });
+
+    const otp = generateOtp();
+    const hashedOtp = await bcrypt.hash(otp, 10);
+    await otpModel.create({
+        email,
+        otpHash: hashedOtp,
+        user: user._id,
+    });
+
+    const subject = "Verify your email";
+    const html = getOtpHtml(otp);
+    const text = `Your OTP is ${otp}. It will expire in 10 minutes.`;
+
+    await sendEmail(email, subject, text, html);
+
+    res.status(201).json({
+        message: "User registered successfully",
+        user
+    });
+}
+
+const verifyUserEmailController = async (req, res) => {
+    const {otp, email} = req.body;
+
+    const otpData = await otpModel.findOne({
+        email: email,
+    });
+
+    if(!otpData) {
+        return res.status(400).json({ message: "Invalid OTP" });
+    }
+
+    const isMatched = await bcrypt.compare(otp, otpData.otpHash);
+
+    if(!isMatched) {
+        return res.status(400).json({ message: "Invalid OTP" });
+    }
+
+    const user = await userModel.findById(otpData.user);
+    if(!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    user.verified = true;
+    await user.save();
+
+    await otpModel.deleteMany({
+        email: email,
     });
 
     const token = jwt.sign({
@@ -38,8 +121,8 @@ const registerUserController = async (req, res) => {
         maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days
     });
 
-    res.status(201).json({
-        message: "User registered successfully",
+    res.status(200).json({
+        message: "User verified successfully",
         user
     });
 }
@@ -54,11 +137,15 @@ const loginUserController = async (req, res) => {
         ]
     }).select("+password");
     if(!user) {
-        return res.status(400).json({ message: "Invalid email or password" });
+        return res.status(400).json({ message: "account does not exist" });
     }
 
     const isMatched = await bcrypt.compare(password, user.password);
     if (!isMatched) return res.status(400).json({ message: "password invalid" });
+
+    if(!user.verified) {
+        return res.status(401).json({ message: "Please verify your email" });
+    }
 
     const token = jwt.sign({
         id: user._id,
@@ -108,9 +195,45 @@ const logoutUserController = async (req, res) => {
     });
 }
 
+const resendOtpController = async (req, res) => {
+    const { email } = req.body;
+
+    const user = await userModel.findOne({ email });
+    if (!user) {
+        return res.status(404).json({ message: "Account does not exist" });
+    }
+
+    if (user.verified) {
+        return res.status(400).json({ message: "Account is already verified" });
+    }
+
+    // Delete old OTP entries
+    await otpModel.deleteMany({ email });
+
+    // Generate new OTP
+    const otp = generateOtp();
+    const hashedOtp = await bcrypt.hash(otp, 10);
+    await otpModel.create({
+        email,
+        otpHash: hashedOtp,
+        user: user._id
+    });
+
+    const subject = "Verify your email";
+    const html = getOtpHtml(otp);
+    const text = `Your OTP is ${otp}. It will expire in 10 minutes.`;
+    await sendEmail(email, subject, text, html);
+
+    res.status(200).json({
+        message: "New verification code sent to your email"
+    });
+}
+
 module.exports = {
     registerUserController,
+    verifyUserEmailController,
     loginUserController,
     logoutUserController,
     getMeController,
+    resendOtpController,
 }

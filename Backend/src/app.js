@@ -16,9 +16,13 @@ app.use(cookieParser());
 
 const authRouter = require('./routes/auth.routes');
 const songRouter = require("./routes/song.routes");
+const handleError = require('./middlewares/error.middleware');
 
 app.use('/api/auth', authRouter);
 app.use('/api/song', songRouter);
+
+
+app.use(handleError);
 
 
 module.exports = app;
