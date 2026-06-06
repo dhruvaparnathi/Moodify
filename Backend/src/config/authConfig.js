@@ -1,22 +1,21 @@
 require('dotenv').config();
 
-if(!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET){
-    throw new Error("Google OAuth credentials not found");
+if(!process.env.BREVO_LOGIN){
+    throw new Error("Brevo login key not found");
 }
 
-if(!process.env.GOOGLE_REFRESH_TOKEN){
-    throw new Error("Refresh token secret not found");
+if(!process.env.BREVO_PASSWORD){
+    throw new Error("Brevo password not found");
 }
 
-if(!process.env.GOOGLE_USER){
-    throw new Error("Google user not found");
+if(!process.env.BREVO_SENDER){
+    throw new Error("Brevo sender not found");
 }
 
 const authConfig = {
-    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
-    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
-    GOOGLE_REFRESH_TOKEN: process.env.GOOGLE_REFRESH_TOKEN,
-    GOOGLE_USER: process.env.GOOGLE_USER
+    BREVO_LOGIN: process.env.BREVO_LOGIN,
+    BREVO_PASSWORD: process.env.BREVO_PASSWORD,
+    BREVO_SENDER: process.env.BREVO_SENDER
 };
 
 module.exports = authConfig;

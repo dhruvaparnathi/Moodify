@@ -37,9 +37,8 @@ const registerUserController = async (req, res) => {
 
             const subject = "Verify your email";
             const html = getOtpHtml(otp);
-            const text = `Your OTP is ${otp}. It will expire in 10 minutes.`;
 
-            await sendEmail(email, subject, text, html);
+            await sendEmail(email, subject, html);
 
             return res.status(200).json({
                 message: "Unverified account found. A new verification code has been sent to your email.",
@@ -68,9 +67,8 @@ const registerUserController = async (req, res) => {
 
     const subject = "Verify your email";
     const html = getOtpHtml(otp);
-    const text = `Your OTP is ${otp}. It will expire in 10 minutes.`;
 
-    await sendEmail(email, subject, text, html);
+    await sendEmail(email, subject, html);
 
     res.status(201).json({
         message: "User registered successfully",
@@ -221,8 +219,7 @@ const resendOtpController = async (req, res) => {
 
     const subject = "Verify your email";
     const html = getOtpHtml(otp);
-    const text = `Your OTP is ${otp}. It will expire in 10 minutes.`;
-    await sendEmail(email, subject, text, html);
+    await sendEmail(email, subject, html);
 
     res.status(200).json({
         message: "New verification code sent to your email"
