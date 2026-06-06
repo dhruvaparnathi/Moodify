@@ -1,24 +1,7 @@
 require('dotenv').config();
-const nodemailer = require("nodemailer");
 const authConfig = require('../config/authConfig');
 
-const transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: authConfig.BREVO_LOGIN,
-    pass: authConfig.BREVO_PASSWORD,
-  },
-});
-
-transporter.verify((error, success) => {
-  if (error) {
-    console.error("Error connecting to Brevo SMTP:", error);
-  } else {
-    console.log("Brevo SMTP server is ready to send emails");
-  }
-});
+const axios = require("axios");
 
 const sendEmail = async (to, subject, text, html) => {
   let emailText = text;
@@ -33,18 +16,33 @@ const sendEmail = async (to, subject, text, html) => {
   }
 
   try {
-    const info = await transporter.sendMail({
-      from: `"Moodify" <${authConfig.BREVO_SENDER}>`,
-      to,
-      subject,
-      text: emailText,
-      html: emailHtml,
-    });
+    const response = await axios.post(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        sender: {
+          name: "Moodify",
+          email: authConfig.BREVO_SENDER,
+        },
+        to: [{ email: to }],
+        subject,
+        htmlContent: emailHtml,
+        textContent: emailText,
+      },
+      {
+        headers: {
+          "api-key": authConfig.BREVO_API_KEY,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-    console.log("Email sent:", info.messageId);
-    return info;
+    console.log("Email sent:", response.data);
+    return response.data;
   } catch (error) {
-    console.error("Error sending email:", error);
+    console.error(
+      "Brevo Email Error:",
+      error.response?.data || error.message
+    );
     throw error;
   }
 };
